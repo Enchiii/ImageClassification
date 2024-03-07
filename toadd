@@ -1,0 +1,36 @@
+IMG_SIZE = (224, 224)
+
+train_data_path = 'data/seg_train/seg_train'
+test_data_path = 'data/seg_test/seg_test'
+pred_data_path = 'data/seg_pred'
+
+datagen = tf.keras.preprocessing.image.ImageDataGenerator(
+    rescale=1/255,
+    zoom_range=0.2,
+    rotation_range=0.3
+)
+
+model_1 = tf.keras.Sequential([
+    layers.Conv2D(8, 6, padding='same', activation='relu', input_shape=(224,224, 3)),
+    layers.Conv2D(8, 6, padding='same', activation='relu'),
+    layers.MaxPool2D(),
+    layers.Conv2D(16, 5, padding='same', activation='relu'),
+    layers.Conv2D(16, 5, padding='same', activation='relu'),
+    layers.MaxPoolD(),
+    layers.Conv2D(32, 4, padding='same', activation='relu'),
+    layers.Conv2D(32, 4, padding='same', activation='relu'),
+    layers.MaxPoolD(),
+    layers.Conv2D(64, 3, padding='same', activation='relu'),
+    layers.Conv2D(64, 3, padding='same', activation='relu'),
+    layers.Flatten(),
+    layers.Dense(128, activation='relu'),
+    layers.Dense(10, activation='sigmoid')
+])
+
+model_1.compile(
+    optimizer=Adam(),
+    loss=tf.keras.losses.CategoricalCrossentropy,
+    metrics=['accuracy']
+)
+
+model_1.fit()
